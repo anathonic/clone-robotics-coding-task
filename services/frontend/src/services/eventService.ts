@@ -10,7 +10,7 @@ export const eventService = {
         try {
             const response = await axios.post(`${API_BASE_URL}/robot/power`, {}, { headers });
 
-            if (response.status !== 200) {
+            if (response.status !== 201) {
                 throw new Error(`Failed to toggle power: ${response.statusText}`);
             }
         } catch (error) {
@@ -22,7 +22,7 @@ export const eventService = {
         try {
             const response = await axios.post(`${API_BASE_URL}/robot/reset`, {}, { headers });
 
-            if (response.status !== 200) {
+            if (response.status !== 201) {
                 throw new Error(`Failed to reset robot: ${response.statusText}`);
             }
         } catch (error) {
@@ -38,7 +38,7 @@ export const eventService = {
                 { headers }
             );
 
-            if (response.status !== 200) {
+            if (response.status !== 201) {
                 throw new Error(`Failed to set fan mode: ${response.statusText}`);
             }
         } catch (error) {
