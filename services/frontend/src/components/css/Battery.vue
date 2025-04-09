@@ -36,7 +36,6 @@ const props = defineProps({
   },
 });
 
-// Computed properties
 const powerPercentage = computed(() => {
   return Math.min(100, (props.powerWatts / props.maxPowerThreshold) * 100);
 });

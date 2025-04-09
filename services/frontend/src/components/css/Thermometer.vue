@@ -18,7 +18,7 @@ import type { CSSProperties } from 'vue';
 const props = defineProps({
   temperatureValue: {
     type: Number,
-    required: true,
+    required: true
   },
 });
 
