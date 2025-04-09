@@ -15,15 +15,6 @@ from models import FanMode, FanSettings
 from resources.robot_mock import RobotMock
 
 API_VERSION = "1.0.0"
-LOGGING_LEVEL = logging.INFO
-
-logging.basicConfig(
-    level=LOGGING_LEVEL,
-    format="%(asctime)s - %(levelname)s - %(message)s",
-    handlers=[
-        logging.StreamHandler(sys.stdout),
-    ]
-)
 
 logger = logging.getLogger("Robot API")
 manager = ConnectionManager()
@@ -45,10 +36,9 @@ Configuration:
 - Logs are available to monitor application behavior.
 """
 
-
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     global robot
-    logger.info("Starting up the app...")
+    logger.debug("Starting up the app...")
     args = app.state.args
     robot = RobotMock(update_frequency=args.frequency)
     logger.info(f"Robot Monitor starting with update frequency: {args.frequency}Hz")
@@ -222,6 +212,14 @@ def main() -> None:
     args = parse_args()
 
     log_level = getattr(logging, args.log_level.upper())
+    logging.basicConfig(
+        level=log_level,
+        format="%(asctime)s - %(levelname)s - %(message)s",
+        handlers=[
+            logging.StreamHandler(sys.stdout),
+        ]
+    )
+
     logging.getLogger().setLevel(log_level)
     logger.setLevel(log_level)
 
