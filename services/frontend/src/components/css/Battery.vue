@@ -18,44 +18,45 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    powerWatts: {
-      type: Number,
-      required: true,
-      default: 0,
-      validator(value) {
-        return value >= 0;
-      },
+<script setup lang="ts">
+import { computed } from 'vue';
+
+const props = defineProps({
+  powerWatts: {
+    type: Number,
+    required: true,
+    default: 0,
+    validator(value: number) {
+      return value >= 0;
     },
-    maxPowerThreshold: {
-      type: Number,
-      default: 25,
-    }
   },
-  computed: {
-    powerPercentage() {
-      return Math.min(100, (this.powerWatts / this.maxPowerThreshold) * 100);
-    },
-    filledBars() {
-      return Math.ceil(this.powerPercentage / 20);
-    },
-    powerColorClass() {
-      if (this.powerPercentage <= 40) {
-        return "lvl3";
-      } else if (this.powerPercentage <= 80) {
-        return "lvl2";
-      } else {
-        return "lvl1";
-      }
-    }
+  maxPowerThreshold: {
+    type: Number,
+    default: 25,
   },
-};
+});
+
+// Computed properties
+const powerPercentage = computed(() => {
+  return Math.min(100, (props.powerWatts / props.maxPowerThreshold) * 100);
+});
+
+const filledBars = computed(() => {
+  return Math.ceil(powerPercentage.value / 20);
+});
+
+const powerColorClass = computed(() => {
+  if (powerPercentage.value <= 40) {
+    return "lvl3";
+  } else if (powerPercentage.value <= 80) {
+    return "lvl2";
+  } else {
+    return "lvl1";
+  }
+});
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
 * {
   box-sizing: border-box;
   margin: 0;

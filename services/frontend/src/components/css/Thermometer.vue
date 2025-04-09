@@ -5,59 +5,46 @@
       <div id="graduations"></div>
     </div>
     <div class="power-wrapper">
-      <p> Temperature </p>
+      <p>Temperature</p>
     </div>
     {{ temperatureValue }} C
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+<script setup lang="ts">
+import {computed, ref} from 'vue';
+import type { CSSProperties } from 'vue';
 
-export default defineComponent({
-  name: 'Thermometer',
-
-  props: {
-    temperatureValue: {
-      type: Number,
-      required: true,
-    },
+const props = defineProps({
+  temperatureValue: {
+    type: Number,
+    required: true,
   },
+});
 
-  setup(props) {
-    const minTemp = ref(-20);
-    const maxTemp = ref(100);
+const minTemp = ref(-20);
+const maxTemp = ref(100);
 
-    const temperatureHeight = computed(() => {
-      return `${((props.temperatureValue - minTemp.value) / (maxTemp.value - minTemp.value)) * 100}%`;
-    });
+const temperatureHeight = computed(() => {
+  return `${((props.temperatureValue - minTemp.value) / (maxTemp.value - minTemp.value)) * 100}%`;
+});
 
-    const temperatureData = computed(() => {
-      return `${props.temperatureValue} °C`;
-    });
+const temperatureData = computed(() => {
+  return `${props.temperatureValue} °C`;
+});
 
-    const termometerStyle = computed(() => {
-      return {
-        width: '25px',
-        height: '240px',
-        background: '#2f2f35',
-        border: '9px solid #1e1e24',
-        borderRadius: '20px',
-        position: 'relative',
-        marginBottom: '50px',
-        zIndex: '1',
-        transform: 'rotate(180deg)',
-      };
-    });
-
-    return {
-      minTemp,
-      maxTemp,
-      temperatureHeight,
-      temperatureData,
-      termometerStyle,
-    };
-  }
+const termometerStyle = computed(() => {
+  return {
+    width: '25px',
+    height: '240px',
+    background: '#2f2f35',
+    border: '9px solid #1e1e24',
+    borderRadius: '20px',
+    position: 'relative',
+    marginBottom: '50px',
+    zIndex: '1',
+    transform: 'rotate(180deg)',
+  } as CSSProperties;
 });
 </script>
 
@@ -108,6 +95,7 @@ p {
 #playground {
   font-size: 1.1em;
 }
+
 .power-wrapper {
   margin-top: 50px;
   display: flex;
@@ -122,5 +110,4 @@ p {
   font-size: 1.1rem;
   padding-left: 10px;
 }
-
 </style>
